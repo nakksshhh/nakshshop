@@ -1,5 +1,5 @@
 import React from 'react';
-import { getProduct } from '@/lib/shopify';
+import { getProduct , getProducts } from '@/lib/shopify';
 import ProductDetails from '@/components/ProductDetails';
 import { notFound } from 'next/navigation';
 
@@ -25,5 +25,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
 // Generate static params for better performance
 export async function generateStaticParams() {
-  return [];
+  const products = await getProducts();
+
+  return products.map((product: any) => ({
+    handle: product.handle,
+  }));
 }
