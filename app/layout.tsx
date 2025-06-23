@@ -2,6 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { CartProvider } from '@/context/CartContext';
+import { WishlistProvider } from '@/context/WishlistContext';
+import { ThemeProvider } from 'next-themes';
 import Header from '@/components/Header';
 import Cart from '@/components/Cart';
 import { Toaster } from '@/components/ui/sonner';
@@ -19,18 +21,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <CartProvider>
-          <div className="min-h-screen bg-gray-50">
-            <Header />
-            <main className="pb-16">
-              {children}
-            </main>
-            <Cart />
-            <Toaster />
-          </div>
-        </CartProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <CartProvider>
+            <WishlistProvider>
+              <div className="min-h-screen bg-background">
+                <Header />
+                <main className="pb-16">
+                  {children}
+                </main>
+                <Cart />
+                <Toaster />
+              </div>
+            </WishlistProvider>
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

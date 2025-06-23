@@ -8,8 +8,9 @@ import { formatPrice } from '@/lib/shopify';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { useCart } from '@/context/CartContext';
-import { ShoppingCart, Heart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { WishlistButton } from '@/components/WishlistButton';
 
 interface ProductCardProps {
   product: ShopifyProduct;
@@ -50,7 +51,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <Card className="group overflow-hidden hover:shadow-lg transition-all duration-300 hover:scale-[1.02]">
       <div className="relative overflow-hidden">
         <Link href={`/product/${product.handle}`}>
-          <div className="aspect-square relative bg-gray-100">
+          <div className="aspect-square relative bg-muted">
             {firstImage ? (
               <Image
                 src={firstImage.url}
@@ -60,7 +61,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-400">
+              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                 No Image
               </div>
             )}
@@ -73,29 +74,26 @@ export default function ProductCard({ product }: ProductCardProps) {
           </Badge>
         )}
         
-        <Button
-          variant="outline"
-          size="icon"
-          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white/80 backdrop-blur-sm"
-        >
-          <Heart className="h-4 w-4" />
-        </Button>
+        <WishlistButton
+          product={product}
+          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-background/80 backdrop-blur-sm"
+        />
       </div>
 
       <CardContent className="p-4">
         <Link href={`/product/${product.handle}`}>
-          <h3 className="font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+          <h3 className="font-semibold text-foreground line-clamp-2 group-hover:text-blue-600 transition-colors">
             {product.title}
           </h3>
         </Link>
         
         <div className="mt-2 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <span className="text-lg font-bold text-gray-900">
+            <span className="text-lg font-bold text-foreground">
               {formatPrice(firstVariant.price.amount, firstVariant.price.currencyCode)}
             </span>
             {isOnSale && (
-              <span className="text-sm text-gray-500 line-through">
+              <span className="text-sm text-muted-foreground line-through">
                 {formatPrice(product.priceRange.maxVariantPrice.amount, product.priceRange.maxVariantPrice.currencyCode)}
               </span>
             )}
@@ -113,7 +111,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
 
         {product.description && (
-          <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+          <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
             {product.description.replace(/<[^>]*>/g, '')}
           </p>
         )}

@@ -9,7 +9,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useCart } from '@/context/CartContext';
-import { ShoppingCart, Heart, Share2, ArrowLeft, Star } from 'lucide-react';
+import { ShoppingCart, Share2, ArrowLeft, Star } from 'lucide-react';
+import { WishlistButton } from '@/components/WishlistButton';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 
@@ -78,7 +79,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         <div className="space-y-4">
           {/* Main Image */}
           <Card className="overflow-hidden">
-            <div className="aspect-square relative bg-gray-100">
+            <div className="aspect-square relative bg-muted">
               {selectedImage ? (
                 <Image
                   src={selectedImage.url}
@@ -88,7 +89,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   priority
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400">
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                   No Image Available
                 </div>
               )}
@@ -102,10 +103,10 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                 <button
                   key={image.id}
                   onClick={() => setSelectedImageIndex(index)}
-                  className={`aspect-square relative bg-gray-100 rounded-lg overflow-hidden border-2 transition-colors ${
+                  className={`aspect-square relative bg-muted rounded-lg overflow-hidden border-2 transition-colors ${
                     selectedImageIndex === index
                       ? 'border-blue-600'
-                      : 'border-transparent hover:border-gray-300'
+                      : 'border-transparent hover:border-border'
                   }`}
                 >
                   <Image
@@ -123,7 +124,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
         {/* Product Info */}
         <div className="space-y-6">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-foreground mb-2">
               {product.title}
             </h1>
             
@@ -133,16 +134,16 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                   <Star
                     key={i}
                     className={`h-5 w-5 ${
-                      i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                      i < 4 ? 'text-yellow-400 fill-current' : 'text-muted-foreground'
                     }`}
                   />
                 ))}
-                <span className="ml-2 text-sm text-gray-600">(4.0) 128 reviews</span>
+                <span className="ml-2 text-sm text-muted-foreground">(4.0) 128 reviews</span>
               </div>
             </div>
 
             <div className="flex items-center space-x-4">
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-3xl font-bold text-foreground">
                 {formatPrice(selectedVariant.price.amount, selectedVariant.price.currencyCode)}
               </span>
               
@@ -171,8 +172,8 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                     onClick={() => setSelectedVariant(variant)}
                     className={`p-3 rounded-lg border text-sm transition-colors ${
                       selectedVariant.id === variant.id
-                        ? 'border-blue-600 bg-blue-50 text-blue-600'
-                        : 'border-gray-300 hover:border-gray-400'
+                        ? 'border-blue-600 bg-blue-50 dark:bg-blue-950 text-blue-600'
+                        : 'border-border hover:border-muted-foreground'
                     }`}
                   >
                     {variant.title}
@@ -221,10 +222,12 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             </Button>
 
             <div className="grid grid-cols-2 gap-3">
-              <Button variant="outline" size="lg">
-                <Heart className="h-4 w-4 mr-2" />
-                Save
-              </Button>
+              <WishlistButton 
+                product={product}
+                variant="outline"
+                size="lg"
+                className="w-full"
+              />
               <Button variant="outline" size="lg">
                 <Share2 className="h-4 w-4 mr-2" />
                 Share
@@ -239,7 +242,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <div>
               <h3 className="font-semibold mb-3">Description</h3>
               <div 
-                className="prose prose-sm max-w-none text-gray-600"
+                className="prose prose-sm max-w-none text-muted-foreground dark:prose-invert"
                 dangerouslySetInnerHTML={{ __html: product.description }}
               />
             </div>
@@ -249,7 +252,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
           <Card>
             <CardContent className="p-6">
               <h3 className="font-semibold mb-4">Product Features</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-muted-foreground">
                 <li>• Premium quality materials</li>
                 <li>• 30-day return policy</li>
                 <li>• Free shipping on orders over $50</li>
