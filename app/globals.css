@@ -21,14 +21,6 @@
   --warm-brown: 139, 115, 95;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 245, 242, 238;
-    --background-start-rgb: 35, 40, 35;
-    --background-end-rgb: 25, 30, 25;
-  }
-}
-
 @layer base {
   :root {
     --background: 252 250 247;
@@ -59,25 +51,30 @@
   }
   
   .dark {
-    --background: 35 40 35;
+    --background: 25 30 25;
     --foreground: 245 242 238;
     --card: 35 40 35;
     --card-foreground: 245 242 238;
     --popover: 35 40 35;
     --popover-foreground: 245 242 238;
     --primary: 167 187 162;
-    --primary-foreground: 35 40 35;
-    --secondary: 55 60 55;
+    --primary-foreground: 25 30 25;
+    --secondary: 45 50 45;
     --secondary-foreground: 245 242 238;
-    --muted: 55 60 55;
+    --muted: 45 50 45;
     --muted-foreground: 180 170 160;
-    --accent: 75 80 75;
+    --accent: 65 70 65;
     --accent-foreground: 245 242 238;
     --destructive: 205 133 108;
     --destructive-foreground: 245 242 238;
-    --border: 75 80 75;
-    --input: 55 60 55;
+    --border: 65 70 65;
+    --input: 45 50 45;
     --ring: 167 187 162;
+    --chart-1: 167 187 162;
+    --chart-2: 205 133 108;
+    --chart-3: 242 220 215;
+    --chart-4: 180 170 160;
+    --chart-5: 85 107 80;
   }
 }
 
@@ -87,9 +84,19 @@
   }
   
   body {
-    @apply bg-gradient-to-br via-warm-beige to-soft-blush-light text-foreground font-inter;
+    @apply bg-background text-foreground font-inter transition-colors duration-300;
     background-attachment: fixed;
     min-height: 100vh;
+  }
+  
+  /* Light mode gradient background */
+  body:not(.dark) {
+    background: linear-gradient(135deg, rgb(var(--cream)) 0%, rgb(var(--warm-beige)) 50%, rgb(var(--soft-blush-light)) 100%);
+  }
+  
+  /* Dark mode gradient background */
+  .dark body {
+    background: linear-gradient(135deg, rgb(25, 30, 25) 0%, rgb(35, 40, 35) 50%, rgb(45, 50, 45) 100%);
   }
   
   .font-serif {
@@ -190,17 +197,34 @@
   animation: shimmer 2s infinite;
 }
 
+/* Dark mode shimmer */
+.dark .animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+}
+
 /* Warm gradient backgrounds */
 .bg-warm-gradient {
   background: linear-gradient(135deg, rgb(var(--cream)) 0%, rgb(var(--warm-beige)) 50%, rgb(var(--soft-blush-light)) 100%);
+}
+
+.dark .bg-warm-gradient {
+  background: linear-gradient(135deg, rgb(35, 40, 35) 0%, rgb(45, 50, 45) 50%, rgb(55, 60, 55) 100%);
 }
 
 .bg-sage-gradient {
   background: linear-gradient(135deg, rgb(var(--sage-green-light)) 0%, rgb(var(--sage-green)) 100%);
 }
 
+.dark .bg-sage-gradient {
+  background: linear-gradient(135deg, rgb(85, 107, 80) 0%, rgb(127, 147, 122) 100%);
+}
+
 .bg-earth-gradient {
   background: linear-gradient(135deg, rgb(var(--warm-beige)) 0%, rgb(var(--soft-blush)) 50%, rgb(var(--cream)) 100%);
+}
+
+.dark .bg-earth-gradient {
+  background: linear-gradient(135deg, rgb(45, 50, 45) 0%, rgb(55, 60, 55) 50%, rgb(35, 40, 35) 100%);
 }
 
 /* Soft shadows and borders */
@@ -208,8 +232,16 @@
   box-shadow: 0 4px 20px rgba(139, 115, 95, 0.1), 0 2px 8px rgba(147, 167, 142, 0.05);
 }
 
+.dark .shadow-warm {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
 .shadow-botanical {
   box-shadow: 0 8px 32px rgba(147, 167, 142, 0.15), 0 4px 16px rgba(139, 115, 95, 0.1);
+}
+
+.dark .shadow-botanical {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .border-warm {
@@ -230,6 +262,10 @@
   box-shadow: 0 12px 40px rgba(147, 167, 142, 0.2), 0 6px 20px rgba(139, 115, 95, 0.15);
 }
 
+.dark .hover-lift:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
 .hover-bloom:hover {
   animation: bloom 0.6s ease-out;
 }
@@ -243,8 +279,16 @@
   color: rgb(var(--sage-green-dark));
 }
 
+.dark .text-sage-dark {
+  color: rgb(var(--sage-green-light));
+}
+
 .text-warm-brown {
   color: rgb(var(--warm-brown));
+}
+
+.dark .text-warm-brown {
+  color: rgb(180, 170, 160);
 }
 
 .text-terracotta {
@@ -260,16 +304,32 @@
   background-color: rgb(var(--cream));
 }
 
+.dark .bg-cream {
+  background-color: rgb(35, 40, 35);
+}
+
 .bg-warm-beige {
   background-color: rgb(var(--warm-beige));
+}
+
+.dark .bg-warm-beige {
+  background-color: rgb(45, 50, 45);
 }
 
 .bg-soft-blush {
   background-color: rgb(var(--soft-blush));
 }
 
+.dark .bg-soft-blush {
+  background-color: rgb(55, 60, 55);
+}
+
 .bg-soft-blush-light {
   background-color: rgb(var(--soft-blush-light));
+}
+
+.dark .bg-soft-blush-light {
+  background-color: rgb(45, 50, 45);
 }
 
 .bg-sage {
@@ -280,12 +340,23 @@
   background-color: rgb(var(--sage-green-light));
 }
 
+.dark .bg-sage-light {
+  background-color: rgb(85, 107, 80);
+}
+
 /* Decorative botanical patterns */
 .botanical-pattern {
   background-image: 
     radial-gradient(circle at 20% 20%, rgba(147, 167, 142, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(242, 220, 215, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 40% 60%, rgba(240, 235, 225, 0.1) 0%, transparent 50%);
+}
+
+.dark .botanical-pattern {
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(85, 107, 80, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(139, 115, 95, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(127, 147, 122, 0.1) 0%, transparent 50%);
 }
 
 /* Smooth transitions */
@@ -302,6 +373,10 @@
   background: rgb(var(--warm-beige));
 }
 
+.dark ::-webkit-scrollbar-track {
+  background: rgb(45, 50, 45);
+}
+
 ::-webkit-scrollbar-thumb {
   background: rgb(var(--sage-green));
   border-radius: 4px;
@@ -309,4 +384,13 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(var(--sage-green-dark));
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--sage-green-light));
+}
+
+/* Theme transition */
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }

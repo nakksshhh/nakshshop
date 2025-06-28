@@ -25,13 +25,14 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+          defaultTheme="light"
+          enableSystem={false}
+          disableTransitionOnChange={false}
+          storageKey="nakshshop-theme"
         >
           <CartProvider>
             <WishlistProvider>
-              <div className="min-h-screen bg-background">
+              <div className="min-h-screen bg-background transition-colors duration-300">
                 <Header />
                 <main className="pb-16">
                   {children}
